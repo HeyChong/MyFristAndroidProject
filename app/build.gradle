@@ -1,0 +1,40 @@
+apply plugin: 'com.android.application'//表示这是一个程序模块
+
+android {
+    compileSdkVersion 25//项目的编译版本
+    buildToolsVersion "25.0.2"//构建工具的版本
+    defaultConfig {
+        applicationId "com.firstandroid.myproject.myfristandroidproject"// 项目的包名
+        minSdkVersion 15 //最低兼容Android版本
+        targetSdkVersion 25 //系统最高测试版本
+        versionCode 1 //目前的项目版本号
+        versionName "1.0" //目前项目的版本名
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner" //测试????
+    }
+//    用于指定安装文件的相关配置
+    buildTypes {
+        release {
+            minifyEnabled false //用于指定项目的代码混淆   true代表 代码混淆  false代表 不进行混淆
+//            里面代表的是代码混淆时使用的规则文件
+//            其中第一个是  AndroidSDK目录下的通用规则 第二个是在当前项目的根目录下,可以编写特有的混淆规则
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+// 指定当前项目的所有的项目依赖关系
+/**
+ * Android studio 目前一共三种项目以来方式
+ * 1、本地依赖  本地的jar包或目录中添加依赖关系
+ * 2、库依赖  对项目中的库模块添加依赖关系
+ * 3、远程依赖  对jcenter库上的开源项目添加依赖关系
+ */
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar']) //本地的依赖声明，将libs目录下的所有jar包都添加到项目的构建路径当中
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+//    远程依赖声明 其中 com.android.support是域名称用于和其他公司的库区分，appcompat-v7是组名称用于和本公司的其他库区分，后面的25.1.1则是版本号
+    compile 'com.android.support:appcompat-v7:25.1.1'//Gradle首先会检测本地有没有该库没有的话会联网去下载
+//    声明测试用 例库的。
+    testCompile 'junit:junit:4.12'
+}
